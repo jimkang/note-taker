@@ -1,21 +1,15 @@
 var restify = require('restify');
-var fs = require('fs');
-var sb = require('standard-bail')();
-var defaults = require('lodash.defaults');
-var ParseJSON = require('./parse_json');
 var callNextTick = require('call-next-tick');
+var pick = require('lodash.pick');
 
 // TODO: secret should be per-archive
-function NoteTaker(
-  { secret, staticWebStreams, getId },
-  done
-) {
+function NoteTaker({ secret, staticWebStreams, getId }, done) {
   var server = restify.createServer({
     name: 'note-taker'
   });
 
   server.use(restify.CORS());
-  server.use(restify.bodyParser());
+  server.use(restify.bodyParser({ mapParams: true }));
 
   server.get('/health', respondOK);
 
@@ -23,7 +17,7 @@ function NoteTaker(
   server.head(/.*/, respondHead);
 
   callNextTick(done, null, server);
-  
+
   function respondOK(req, res, next) {
     res.json(200, { message: 'OK!' });
     next();
@@ -49,23 +43,13 @@ function NoteTaker(
       next();
       return;
     }
-    if (!req.body) {
-      res.json(400, { message: 'You need to provide the body.' });
+    if (!req.params || (!req.params.caption && !req.params.buffer)) {
+      res.json(400, { message: 'Missing params.' });
       next();
       return;
     }
 
-    var id = getId(archiveName);
-
-    webStream.write({
-      id,
-      date: new Date(req.body.date),
-      mediaFilename: req.body.mediaFilename,
-      caption: req.body.caption,
-      altText: req.body.altText,
-      buffer: req.body.buffer, // Probably not going to work
-      isVideo: req.body.isVideo
-    });
+    webStream.write(getCellFromReq(req, getId(archiveName)));
     res.json(201, { message: 'Got it!' });
     next();
   }
@@ -79,4 +63,14 @@ function NoteTaker(
   }
 }
 
+function getCellFromReq(req, id) {
+  // TODO: Should probably switch over to multipart form data to handle binaries.
+  var cell = pick(req.params, 'caption', 'mediaFilename', 'altText', 'isVideo', 'buffer');
+  cell.id = id; 
+  cell.caption = req.params.caption;
+  cell.date = new Date().toISOString();
+  return cell;
+}
+
 module.exports = NoteTaker;
+

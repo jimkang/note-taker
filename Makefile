@@ -52,3 +52,6 @@ prettier:
 test:
 	node tests/note-taker-tests.js
 
+try-local-post:
+	curl -X POST -H 'Authorization: Key $(SECRET)' -H 'x-note-archive: deathmtn' -H 'content-type: application/json' -d '{"date": "2018-06-14", "caption": "Makefiles R gr8"}' http://localhost:5678/note
+

@@ -11,7 +11,7 @@ var config = require('./config');
 const port = 5678;
 var deathmtnStream = StaticWebArchive({
   title: 'deathmtn',
-  rootPath: config.rootPath,
+  rootPath: config.rootPath + '/deathmtn',
   maxEntriesPerPage: 25
 });
 deathmtnStream.on('error', logError);
