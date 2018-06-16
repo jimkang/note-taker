@@ -12,7 +12,14 @@ const port = 5678;
 var deathmtnStream = StaticWebArchive({
   title: 'deathmtn',
   rootPath: config.rootPath + '/deathmtn',
-  maxEntriesPerPage: 25
+  maxEntriesPerPage: 25,
+  footerHTML: `<footer>
+    Good reads on clean web pages:
+    <ul>
+    <li><a href="http://blog.beaugunderson.com/">Beau's thoughts</a></li>
+    </ul>
+  </footer>
+  `
 });
 deathmtnStream.on('error', logError);
 
