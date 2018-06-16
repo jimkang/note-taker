@@ -65,12 +65,18 @@ function NoteTaker({ secret, staticWebStreams, getId }, done) {
 
 function getCellFromReq(req, id) {
   // TODO: Should probably switch over to multipart form data to handle binaries.
-  var cell = pick(req.params, 'caption', 'mediaFilename', 'altText', 'isVideo', 'buffer');
-  cell.id = id; 
+  var cell = pick(
+    req.params,
+    'caption',
+    'mediaFilename',
+    'altText',
+    'isVideo',
+    'buffer'
+  );
+  cell.id = id;
   cell.caption = req.params.caption;
   cell.date = new Date().toISOString();
   return cell;
 }
 
 module.exports = NoteTaker;
-

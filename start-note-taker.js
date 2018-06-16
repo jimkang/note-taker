@@ -17,6 +17,7 @@ var deathmtnStream = StaticWebArchive({
     Good reads on clean web pages:
     <ul>
     <li><a href="http://blog.beaugunderson.com/">Beau's thoughts</a></li>
+    <li><a href="http://plastic-idolatry.com/erik/timeline.html">Erik's timeline</a></li>
     </ul>
   </footer>
   `
@@ -59,4 +60,3 @@ function appendRandomId(archiveName) {
 function logError(error) {
   process.stderr.write(logFormat(error.message, error.stack));
 }
-

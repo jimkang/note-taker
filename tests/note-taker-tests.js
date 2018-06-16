@@ -31,7 +31,7 @@ var testCases = [
       id: 'test-archive-0',
       caption: `OK, I am testing a thing.
 
-      Here is more text.`,
+      Here is more text.`
       //mediaFilename: undefined,
       //altText: undefined,
       //buffer: undefined,
