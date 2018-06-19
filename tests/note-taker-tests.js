@@ -1,12 +1,18 @@
-/* global process */
+/* global process, Buffer, __dirname */
 var test = require('tape');
 var assertNoError = require('assert-no-error');
 var NoteTaker = require('../note-taker');
 var request = require('request');
 var omit = require('lodash.omit');
+var fs = require('fs');
 
 const port = 5678;
 const serverHost = process.env.SERVER || 'localhost';
+
+var smidgeoBuffer = fs.readFileSync(
+  __dirname + '/fixtures/smidgeo_headshot.jpg',
+  { encoding: null }
+);
 
 var testCases = [
   {
@@ -32,7 +38,7 @@ var testCases = [
       caption: `OK, I am testing a thing.
 
       Here is more text.`
-      //mediaFilename: undefined,
+      //mediaFilename: undefined,;
       //altText: undefined,
       //buffer: undefined,
       //isVideo: undefined
@@ -75,6 +81,36 @@ var testCases = [
     },
     expectedStatusCode: 404,
     expectedWrite: null
+  },
+  {
+    name: 'Image',
+    formData: {
+      caption: `OK, I am testing a thing.
+
+      Here is more text.`,
+      buffer: smidgeoBuffer,
+      mediaFilename: 'smidgeo.jpg',
+      altText: 'It is Smidgeo!'
+    },
+    targetArchive: 'test-archive',
+    archiveStreamName: 'test-archive',
+    secret: 'secret',
+    secretToUse: 'secret',
+    getId(archiveName) {
+      return archiveName + '-image';
+    },
+    expectedStatusCode: 201,
+    expectedWrite: {
+      //name: 'Text note',
+      id: 'test-archive-image',
+      caption: `OK, I am testing a thing.
+
+      Here is more text.`,
+      mediaFilename: 'smidgeo.jpg',
+      altText: 'It is Smidgeo!',
+      buffer: smidgeoBuffer
+      //isVideo: undefined
+    }
   }
 ];
 
@@ -129,10 +165,17 @@ function runTest(testCase) {
       if (testCase.expectedWrite) {
         t.ok(writeObject.date, 'Date is in write object.');
         t.deepEqual(
-          omit(writeObject, 'date'),
+          omit(writeObject, 'date', 'buffer'),
           testCase.expectedWrite,
           'Correct object is written to stream.'
         );
+        if (testCase.expectedWrite.buffer) {
+          t.equal(
+            Buffer.compare(writeObject.buffer, testCase.expectedWrite.buffer),
+            0,
+            'Media buffer is correct.'
+          );
+        }
       } else {
         t.fail('Does not write to stream');
       }
