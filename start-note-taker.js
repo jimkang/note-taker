@@ -11,6 +11,7 @@ var config = require('./config');
 const port = 5678;
 var deathmtnStream = StaticWebArchive({
   title: 'deathmtn',
+  homeLink: 'https://smidgeo.com/notes/deathmtn',
   rootPath: config.rootPath + '/deathmtn',
   maxEntriesPerPage: 25,
   footerHTML: `<footer>
