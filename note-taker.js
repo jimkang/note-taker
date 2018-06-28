@@ -1,3 +1,4 @@
+/* global Buffer */
 var restify = require('restify');
 var callNextTick = require('call-next-tick');
 var pick = require('lodash.pick');
@@ -9,7 +10,31 @@ function NoteTaker({ secret, staticWebStreams, getId }, done) {
   });
 
   server.use(restify.CORS());
-  server.use(restify.bodyParser({ mapParams: true }));
+  server.use(
+    restify.bodyParser({
+      mapFiles: true,
+      // TODO: allow multiples if multiple files are OK to attach?
+      multipartHandler(part, req) {
+        part.on('data', saveToParams);
+
+        function saveToParams(data) {
+          if (Buffer.isBuffer(data)) {
+            if (part.name === 'buffer') {
+              if (!req.params.buffers) {
+                req.params.buffers = [];
+              }
+              req.params.buffers.push(data);
+            } else {
+              // TODO, maybe: Check disposition to make sure it's OK as test?
+              req.params[part.name] = data.toString();
+            }
+          } else {
+            console.error('Unexpected: non-buffer passed to multipartHandler.');
+          }
+        }
+      }
+    })
+  );
 
   server.get('/health', respondOK);
 
@@ -34,7 +59,6 @@ function NoteTaker({ secret, staticWebStreams, getId }, done) {
       next();
       return;
     }
-
     var archiveName = req.headers['x-note-archive'];
 
     var webStream = staticWebStreams[archiveName];
@@ -43,7 +67,7 @@ function NoteTaker({ secret, staticWebStreams, getId }, done) {
       next();
       return;
     }
-    if (!req.params || (!req.params.caption && !req.params.buffer)) {
+    if (!req.params || (!req.params.caption && !req.params.buffers)) {
       res.json(400, { message: 'Missing params.' });
       next();
       return;
@@ -71,11 +95,14 @@ function getCellFromReq(req, id) {
     'mediaFilename',
     'altText',
     'isVideo',
-    'buffer'
   );
   cell.id = id;
   cell.caption = req.params.caption;
   cell.date = new Date().toISOString();
+  if (req.params.buffers && req.params.buffers.length > 0) {
+    // TODO: If static-web-archives someday supports multiple buffers, add them all.
+    cell.buffer = req.params.buffers[0];
+  }
   return cell;
 }
 

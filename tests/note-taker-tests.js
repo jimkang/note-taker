@@ -87,7 +87,7 @@ var testCases = [
     formData: {
       caption: `OK, I am testing a thing.
 
-      Here is more text.`,
+      Here is more text with an image.`,
       buffer: smidgeoBuffer,
       mediaFilename: 'smidgeo.jpg',
       altText: 'It is Smidgeo!'
@@ -105,7 +105,7 @@ var testCases = [
       id: 'test-archive-image',
       caption: `OK, I am testing a thing.
 
-      Here is more text.`,
+      Here is more text with an image.`,
       mediaFilename: 'smidgeo.jpg',
       altText: 'It is Smidgeo!',
       buffer: smidgeoBuffer
@@ -151,13 +151,19 @@ function runTest(testCase) {
       var reqOpts = {
         method: 'POST',
         url: `http://${serverHost}:${port}/note`,
-        body: testCase.body,
-        json: true,
         headers: {
           Authorization: `Key ${testCase.secretToUse}`,
           'X-Note-Archive': testCase.targetArchive
         }
       };
+
+      if (testCase.formData) {
+        reqOpts.formData = testCase.formData;
+      } else {
+        reqOpts.json = true;
+        reqOpts.body = testCase.body;
+      }
+
       request(reqOpts, checkResponse);
     }
 
@@ -165,7 +171,7 @@ function runTest(testCase) {
       if (testCase.expectedWrite) {
         t.ok(writeObject.date, 'Date is in write object.');
         t.deepEqual(
-          omit(writeObject, 'date', 'buffer'),
+          omit(writeObject, 'date'),
           testCase.expectedWrite,
           'Correct object is written to stream.'
         );
