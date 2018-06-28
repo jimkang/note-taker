@@ -9,30 +9,21 @@ function NoteTaker({ secret, staticWebStreams, getId }, done) {
     name: 'note-taker'
   });
 
-  server.use(restify.CORS());
+  var extraHeaders = ['x-note-archive', 'authorization', 'content-type'];
+
+  var corsSimple = restify.CORS({
+    credentials: true,
+    headers: extraHeaders
+  });
+  // This is actually what the preflight handler in the
+  // router uses, not the CORS plugin functions.
+  restify.CORS.ALLOW_HEADERS = restify.CORS.ALLOW_HEADERS.concat(extraHeaders);
+  server.use(corsSimple);
+
   server.use(
     restify.bodyParser({
-      mapFiles: true,
-      // TODO: allow multiples if multiple files are OK to attach?
-      multipartHandler(part, req) {
-        part.on('data', saveToParams);
-
-        function saveToParams(data) {
-          if (Buffer.isBuffer(data)) {
-            if (part.name === 'buffer') {
-              if (!req.params.buffers) {
-                req.params.buffers = [];
-              }
-              req.params.buffers.push(data);
-            } else {
-              // TODO, maybe: Check disposition to make sure it's OK as test?
-              req.params[part.name] = data.toString();
-            }
-          } else {
-            console.error('Unexpected: non-buffer passed to multipartHandler.');
-          }
-        }
-      }
+      maxBodySize: 12000000,
+      mapFiles: true
     })
   );
 
@@ -67,7 +58,7 @@ function NoteTaker({ secret, staticWebStreams, getId }, done) {
       next();
       return;
     }
-    if (!req.params || (!req.params.caption && !req.params.buffers)) {
+    if (!req.params || (!req.params.caption && !req.params.buffer)) {
       res.json(400, { message: 'Missing params.' });
       next();
       return;
@@ -79,9 +70,13 @@ function NoteTaker({ secret, staticWebStreams, getId }, done) {
   }
 
   function respondHead(req, res, next) {
-    res.writeHead(200, {
-      'content-type': 'application/json'
-    });
+    if (req.method !== 'OPTIONS') {
+      res.writeHead(200, {
+        'content-type': 'application/json'
+      });
+    } else {
+      res.writeHead(200, 'OK');
+    }
     res.end();
     next();
   }
@@ -89,19 +84,13 @@ function NoteTaker({ secret, staticWebStreams, getId }, done) {
 
 function getCellFromReq(req, id) {
   // TODO: Should probably switch over to multipart form data to handle binaries.
-  var cell = pick(
-    req.params,
-    'caption',
-    'mediaFilename',
-    'altText',
-    'isVideo',
-  );
+  var cell = pick(req.params, 'caption', 'mediaFilename', 'altText', 'isVideo');
   cell.id = id;
   cell.caption = req.params.caption;
   cell.date = new Date().toISOString();
-  if (req.params.buffers && req.params.buffers.length > 0) {
+  if (req.params.buffer && Buffer.isBuffer(req.params.buffer)) {
     // TODO: If static-web-archives someday supports multiple buffers, add them all.
-    cell.buffer = req.params.buffers[0];
+    cell.buffer = req.params.buffer;
   }
   return cell;
 }

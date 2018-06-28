@@ -88,7 +88,10 @@ var testCases = [
       caption: `OK, I am testing a thing.
 
       Here is more text with an image.`,
-      buffer: smidgeoBuffer,
+      buffer: fs.createReadStream(
+        __dirname + '/fixtures/smidgeo_headshot.jpg',
+        { encoding: null }
+      ),
       mediaFilename: 'smidgeo.jpg',
       altText: 'It is Smidgeo!'
     },
