@@ -9,6 +9,7 @@ var randomId = require('idmaker').randomId;
 var config = require('./config');
 
 const port = 5678;
+
 var deathmtnStream = StaticWebArchive({
   title: 'deathmtn',
   homeLink: 'https://smidgeo.com/notes/deathmtn',
@@ -28,7 +29,13 @@ var deathmtnStream = StaticWebArchive({
     <a href="mailto:jimkang+notes@gmail.com">jimkang@gmail.com</a>
   </div>
   </footer>
-  `
+  `,
+  generateRSS: true,
+  archiveBaseURL: 'https://smidgeo.com/notes/deathmtn',
+  rssFeedOpts: {
+    feed_url: 'https://smidgeo.com/notes/deathmtn/rss/index.rss',
+    site_url: 'https://smidgeo.com/notes/deathmtn/'
+  }
 });
 deathmtnStream.on('error', logError);
 
