@@ -21,9 +21,13 @@ var deathmtnStream = StaticWebArchive({
     <ul>
     <li><a href="http://blog.beaugunderson.com/">Beau's thoughts</a></li>
     <li><a href="http://plastic-idolatry.com/erik/timeline.html">Erik's timeline</a></li>
+    <li><a href="https://avoision.com/blog/">Avoision</a></li>
     </ul>
   </div>
   <div>This site is updated via <a href="https://github.com/jimkang/note-taker">note-taker</a> and <a href="https://github.com/jimkang/note-sender">note-sender</a>. note-taker is an adapter for <a href="https://github.com/jimkang/static-web-archive">static-web-archive</a>.
+  </div>
+  <div>
+    <a href="https://smidgeo.com/notes/deathmtn/rss/index.rss">RSS feed</a>
   </div>
   <div>
     <a href="mailto:jimkang+notes@gmail.com">jimkang@gmail.com</a>
