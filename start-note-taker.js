@@ -15,6 +15,7 @@ var deathmtnStream = StaticWebArchive({
   homeLink: 'https://smidgeo.com/notes/deathmtn',
   rootPath: config.rootPath + '/deathmtn',
   maxEntriesPerPage: 25,
+  fileAbstractionType: 'LocalGit',
   footerHTML: `<footer>
   <div>
     Good reads on clean web pages:
