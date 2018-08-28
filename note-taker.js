@@ -4,7 +4,13 @@ var callNextTick = require('call-next-tick');
 var pick = require('lodash.pick');
 
 // TODO: secret should be per-archive
-function NoteTaker({ secret, staticWebStreams, getId }, done) {
+function NoteTaker({ archiveKits, getId }, done) {
+  var kitsByName = {};
+  archiveKits.forEach(storeKit);
+  function storeKit(kit) {
+    kitsByName[kit.name] = kit;
+  }
+
   var server = restify.createServer({
     name: 'note-taker'
   });
@@ -40,21 +46,29 @@ function NoteTaker({ secret, staticWebStreams, getId }, done) {
   }
 
   function postNote(req, res, next) {
-    if (req.headers.authorization !== `Key ${secret}`) {
-      res.json(401);
-      next();
-      return;
-    }
     if (!req.headers['x-note-archive']) {
       res.json(400, { message: 'No note archive specified.' });
       next();
       return;
     }
     var archiveName = req.headers['x-note-archive'];
+    var archiveKit = kitsByName[archiveName];
 
-    var webStream = staticWebStreams[archiveName];
-    if (!webStream) {
+    if (!archiveKit) {
       res.json(404, { message: 'Cannot find archive.' });
+      next();
+      return;
+    }
+
+    if (req.headers.authorization !== `Key ${archiveKit.secret}`) {
+      res.json(401);
+      next();
+      return;
+    }
+
+    var webStream = archiveKit.archiveStream;
+    if (!webStream) {
+      res.json(404, { message: 'Cannot find archive stream.' });
       next();
       return;
     }

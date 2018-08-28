@@ -8,6 +8,57 @@ Installation
 
 Clone this repo.
 
+After that, there's a few config files you have to create in the `configs/` directory.
+
+`config/index.js` should be an array of configs for each archive that note-taker should maintain. e.g.:
+
+    module.exports = [
+      require('./deathmtn-config'),
+      require('./smidgital-digital-blog-config')
+    ];
+
+Each config should have a 'name' property, the opts you'd pass to create a [static-web-archive](https://github.com/jimkang/static-web-archive'), under `archiveOpts`, and a secret under `secret`. The secret is something note-taker checks against when receiving posts. For example:
+
+    const rootPath = '/usr/share/nginx/html/blog-zone/deathmtn';
+
+    module.exports = {
+      name: 'deathmtn',
+      archiveOpts: {
+        title: 'deathmtn',
+        homeLink: 'https://smidgeo.com/notes/deathmtn',
+        rootPath: rootPath + '/deathmtn',
+        maxEntriesPerPage: 25,
+        fileAbstractionType: 'LocalGit',
+        footerHTML: `<footer>
+        <div>
+          Good reads on clean web pages:
+          <ul>
+          <li><a href="http://blog.beaugunderson.com/">Beau's thoughts</a></li>
+          <li><a href="http://plastic-idolatry.com/erik/timeline.html">Erik's timeline</a></li>
+          <li><a href="https://avoision.com/blog/">Avoision</a></li>
+          </ul>
+        </div>
+        <div>This site is updated via <a href="https://github.com/jimkang/note-taker">note-taker</a> and <a href="https://github.com/jimkang/note-sender">note-sender</a>. note-taker is an adapter for <a href="https://github.com/jimkang/static-web-archive">static-web-archive</a>.
+        </div>
+        <div>
+          <a href="https://smidgeo.com/notes/deathmtn/rss/index.rss">RSS feed</a>
+        </div>
+        <div>
+          <a href="mailto:jimkang+notes@gmail.com">jimkang@gmail.com</a>
+        </div>
+        </footer>
+        `,
+        generateRSS: true,
+        archiveBaseURL: 'https://smidgeo.com/notes/deathmtn',
+        rssFeedOpts: {
+          feed_url: 'https://smidgeo.com/notes/deathmtn/rss/index.rss',
+          site_url: 'https://smidgeo.com/notes/deathmtn/'
+        }
+      },
+      secret: '<Secret for posting to this>'
+    }
+
+
 Usage
 -----
 
@@ -20,6 +71,8 @@ Deploy:
 Subsequent deploys:
 
     make pushall
+
+For an example of a browser client posting to note-taker, see [note-sender](https://github.com/jimkang/note-sender).
 
 License
 -------

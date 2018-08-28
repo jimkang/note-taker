@@ -130,10 +130,13 @@ function runTest(testCase) {
 
     NoteTaker(
       {
-        secret: testCase.secret,
-        staticWebStreams: {
-          [testCase.archiveStreamName]: mockWebStream
-        },
+        archiveKits: [
+          {
+            secret: testCase.secret,
+            name: testCase.archiveStreamName,
+            archiveStream: mockWebStream
+          }
+        ],
         getId: testCase.getId
       },
       startServer
