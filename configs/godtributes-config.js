@@ -8,7 +8,8 @@ module.exports = {
     fileAbstractionType: 'LocalGit',
     footerHTML: `<footer>
     <div>
-    <div>This site is updated via <a href="https://github.com/jimkang/note-taker">note-taker</a> and <a href="https://github.com/jimkang/note-sender">note-sender</a>. note-taker is an adapter for <a href="https://github.com/jimkang/static-web-archive">static-web-archive</a>.
+      Banner by <a href="https://twitter.com/metroidbaby">@metroidbaby</a>.
+      Powered by <a href="http://developer.wordnik.com/">Wordnik</a>.
     </div>
     <div>
       <a href="https://smidgeo.com/bots/godtributes/rss/index.rss">RSS FOR THE RSS GOD</a>
