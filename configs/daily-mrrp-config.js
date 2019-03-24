@@ -8,7 +8,8 @@ module.exports = {
     rootPath,
     maxEntriesPerPage: 25,
     fileAbstractionType: 'LocalGit',
-    headerExtraHTML: '<p>Dr. Wily is a cat of sounds. Most of those sounds are "MRRP!" Turn your sound on to hear them.</p>',
+    headerExtraHTML:
+      '<p>Dr. Wily is a cat of sounds. Most of those sounds are "MRRP!" Turn your sound on to hear them.</p>',
     footerHTML: `<footer id="footer">
     <div>
       Brought to you by <a href="https://smidgeo.com">Smidgeo dot com</a>!
