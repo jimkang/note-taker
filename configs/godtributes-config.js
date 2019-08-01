@@ -1,7 +1,7 @@
 module.exports = {
   name: 'godtributes',
   archiveOpts: {
-    title: '@godtributes',
+    title: 'GODTRIBUTES',
     homeLink: 'https://smidgeo.com/bots/godtributes',
     rootPath: '/usr/share/nginx/html/smidgeo.com/bots/godtributes',
     maxEntriesPerPage: 50,
