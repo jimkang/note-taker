@@ -15,6 +15,9 @@ module.exports = {
       <a href="https://smidgeo.com/bots/godtributes/rss/index.rss">RSS FOR THE RSS GOD</a>
     </div>
     <div>
+      <a href="https://tinyletter.com/bots">DAILY EMAIL TRIBUTES FOR THE DAILY EMAIL TRIBUTE GOD</a>
+    </div>
+    <div>
       <a href="mailto:bots@fastmail.com">bots@fastmail.com</a>
     </div>
     <div>

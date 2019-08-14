@@ -14,6 +14,9 @@ module.exports = {
       <a href="https://smidgeo.com/bots/fuckingshakespeare/rss/index.rss">Fucking RSS</a>
     </div>
     <div>
+      <a href="https://tinyletter.com/bots">Fucking get Shakespeare sent the fuck to you fucking every fucking day</a>
+    </div>
+    <div>
       <a href="mailto:bots@fastmail.com">bots@fastmail.com</a>
     </div>
     </footer>

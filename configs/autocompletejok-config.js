@@ -12,6 +12,9 @@ module.exports = {
     </div>
     <div>
       <a href="https://smidgeo.com/bots/autocompletejok/rss/index.rss">RSS feed</a>
+    <div>
+      <a href="https://tinyletter.com/bots">Joks 2 ur inbox!</a>
+    </div>
     </div>
     <div>
       <a href="mailto:bots@fastmail.com">bots@fastmail.com</a>

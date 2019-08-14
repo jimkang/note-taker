@@ -11,6 +11,9 @@ module.exports = {
       <a href="https://smidgeo.com/bots/successfulbot/rss/index.rss">The Most Successful RSS I've Subscribed To</a>
     </div>
     <div>
+      <a href="https://tinyletter.com/bots">Learn how 2 succeed just by reading your email!</a>
+    </div>
+    <div>
       <a href="mailto:bots@fastmail.com">bots@fastmail.com</a>
     </div>
     <div>
