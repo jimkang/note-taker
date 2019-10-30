@@ -32,6 +32,6 @@
     "log-format": "^1.0.0",
     "restify": "^4.3.4",
     "standard-bail": "^2.0.1",
-    "static-web-archive": "^4.0.4"
+    "static-web-archive": "^4.0.5"
   }
 }
