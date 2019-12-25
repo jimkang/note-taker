@@ -25,7 +25,7 @@
     "tape": "^4.10.1"
   },
   "dependencies": {
-    "@jimkang/restify": "^4.3.5",
+    "@jimkang/restify": "^4.3.6",
     "call-next-tick": "^1.1.2",
     "idmaker": "^0.1.1",
     "lodash.defaults": "^4.2.0",
