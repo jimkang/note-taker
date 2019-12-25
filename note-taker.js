@@ -28,8 +28,8 @@ function NoteTaker({ archiveKits, getId }, done) {
 
   server.use(
     restify.bodyParser({
-      maxBodySize: 10000000000,
-      maxFileSize: 10000000000,
+      maxBodySize: 12000000,
+      maxFileSize: 12000000,
       mapFiles: true
     })
   );
