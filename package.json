@@ -25,12 +25,12 @@
     "tape": "^4.10.1"
   },
   "dependencies": {
+    "@jimkang/restify": "^4.3.4",
     "call-next-tick": "^1.1.2",
     "idmaker": "^0.1.1",
     "lodash.defaults": "^4.2.0",
     "lodash.pick": "^4.4.0",
     "log-format": "^1.0.0",
-    "restify": "^4.3.4",
     "standard-bail": "^2.0.1",
     "static-web-archive": "^4.0.5"
   }

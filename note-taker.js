@@ -1,5 +1,5 @@
 /* global Buffer */
-var restify = require('restify');
+var restify = require('@jimkang/restify');
 var callNextTick = require('call-next-tick');
 var pick = require('lodash.pick');
 
@@ -29,6 +29,7 @@ function NoteTaker({ archiveKits, getId }, done) {
   server.use(
     restify.bodyParser({
       maxBodySize: 210000000,
+      maxFileSize: 210000000,
       mapFiles: true
     })
   );
