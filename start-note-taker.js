@@ -3,7 +3,7 @@
 /* global process */
 
 var NoteTaker = require('./note-taker');
-var StaticWebArchive = require('static-web-archive');
+var StaticWebArchive = require('@jimkang/static-web-archive');
 var logFormat = require('log-format');
 var randomId = require('idmaker').randomId;
 var configs = require('./configs/config-index');
