@@ -26,12 +26,12 @@
   },
   "dependencies": {
     "@jimkang/restify": "^4.3.6",
+    "@jimkang/static-web-archive": "^4.0.6",
     "call-next-tick": "^1.1.2",
     "idmaker": "^0.1.1",
     "lodash.defaults": "^4.2.0",
     "lodash.pick": "^4.4.0",
     "log-format": "^1.0.0",
-    "standard-bail": "^2.0.1",
-    "static-web-archive": "^4.0.5"
+    "standard-bail": "^2.0.1"
   }
 }
