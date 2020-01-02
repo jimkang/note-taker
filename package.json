@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@jimkang/restify": "^4.3.6",
-    "@jimkang/static-web-archive": "^4.0.7",
+    "@jimkang/static-web-archive": "^4.0.8",
     "call-next-tick": "^1.1.2",
     "idmaker": "^0.1.1",
     "lodash.defaults": "^4.2.0",
