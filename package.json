@@ -1,6 +1,6 @@
 {
   "name": "note-taker",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "REST adapter for static-web-archive.",
   "main": "note-taker.js",
   "private": true,
