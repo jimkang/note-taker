@@ -1,4 +1,5 @@
 const rootPath = '/usr/share/nginx/html/smidgeo.com/notes/';
+//const rootPath = '/mnt/storage/smidgeo.com/notes/';
 
 module.exports = {
   name: 'deathmtn',

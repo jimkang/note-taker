@@ -1,4 +1,5 @@
 include config.mk
+#include config-local.mk
 
 HOMEDIR = $(shell pwd)
 SSHCMD = ssh $(USER)@$(SERVER)
@@ -56,7 +57,8 @@ try-local-post:
 	curl -X POST -H 'Authorization: Key $(SECRET)' -H 'x-note-archive: deathmtn' -H 'content-type: application/json' -d '{"date": "2018-06-14", "caption": "Makefiles R gr8"}' http://localhost:5678/note
 
 try-server-post:
-	curl -X POST -H 'Authorization: Key $(SECRET)' -H 'x-note-archive: deathmtn' -H 'content-type: application/json' -d '{"caption": "Makefiles R gr8"}' https://smidgeo.com/note-taker/note
+	#curl -X POST -H 'Authorization: Key $(SECRET)' -H 'x-note-archive: deathmtn' -H 'content-type: application/json' -d '{"caption": "Makefiles R gr8"}' https://smidgeo.com/note-taker/note
+	curl -X POST -H 'Authorization: Key $(SECRET)' -H 'x-note-archive: deathmtn' -H 'content-type: application/json' -d '{"caption": "Makefiles R gr8"}' http://midnight-giant:5678/note
 
 set-up-git-on-notes-dir:
 	mkdir -p $(NOTESGITREMOTEDIR) && \
@@ -71,4 +73,3 @@ set-up-git-on-notes-dir:
 
 set-up-git-on-notes-dir-remotely:
 	$(SSHCMD) "cd $(APPDIR) && make set-up-git-on-notes-dir"
-

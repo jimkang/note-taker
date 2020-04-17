@@ -20,6 +20,7 @@
   "homepage": "https://github.com/jimkang/note-taker",
   "devDependencies": {
     "assert-no-error": "^1.0.0",
+    "eslint": "^6.8.0",
     "omit": "^1.0.1",
     "request": "^2.88.0",
     "tape": "^4.10.1"
