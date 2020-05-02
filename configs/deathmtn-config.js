@@ -9,7 +9,7 @@ module.exports = {
     rootPath: rootPath + '/deathmtn',
     maxEntriesPerPage: 25,
     fileAbstractionType: 'LocalGit',
-    headerExtraHTML: `<link rel="webmention" href="https://webmention.io/smidgeo.com_notes_deathmtn_/webmention" />
+    headExtraHTML: `<link rel="webmention" href="https://webmention.io/smidgeo.com_notes_deathmtn_/webmention" />
     <link rel="pingback" href="https://webmention.io/smidgeo.com_notes_deathmtn_/xmlrpc" />
     `,
     footerHTML: `<footer id="footer">
