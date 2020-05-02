@@ -41,6 +41,8 @@ module.exports = {
         <li><a href="https://jimkang.com">My personal web site, whatever that means</a></li>
       </ul>
     </footer>
+    <link rel="webmention" href="https://webmention.io/smidgeo.com_notes_deathmtn_/webmention" />
+    <link rel="pingback" href="https://webmention.io/smidgeo.com_notes_deathmtn_/xmlrpc" />
     `,
     generateRSS: true,
     archiveBaseURL: 'https://smidgeo.com/notes/deathmtn',
