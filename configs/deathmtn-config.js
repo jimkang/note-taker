@@ -17,7 +17,7 @@ module.exports = {
       <a href="https://smidgeo.com/notes/deathmtn/rss/index.rss">RSS feed</a>
     </div>
     <div>
-      <a href="mailto:deathmtn@fastmail.com">deathmtn@fastmail.com</a>
+      <a rel="me" href="mailto:deathmtn@fastmail.com">deathmtn@fastmail.com</a>
     </div>
     <div>
       <a href="https://smidgeo.com/notes/deathmtn-reports/">TFIDF summaries of this weblog</a>
