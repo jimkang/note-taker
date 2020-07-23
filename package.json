@@ -1,9 +1,12 @@
 {
-  "name": "note-taker",
-  "version": "1.0.1",
+  "name": "@jimkang/note-taker",
+  "version": "2.0.0",
   "description": "REST adapter for static-web-archive.",
-  "main": "note-taker.js",
-  "private": true,
+  "main": "start-note-taker.js",
+  "bin": {
+    "note-taker": "./start-note-taker.js"
+  },
+  "private": false,
   "scripts": {
     "test": "make test"
   },

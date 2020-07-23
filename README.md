@@ -1,21 +1,19 @@
-note-taker
-==================
+# note-taker
 
 REST adapter for static-web-archive.
 
-Installation
-------------
+## Installation
 
-Clone this repo.
+    npm install --save @jimkang/note-taker
 
-After that, there's a few config files you have to create in the `configs/` directory.
+### Configs
 
-`config/index.js` should be an array of configs for each archive that note-taker should maintain. e.g.:
+After that, there's a few config files you have to create in the in a subdirectory of your project.
 
-    module.exports = [
-      require('./deathmtn-config'),
-      require('./smidgital-digital-blog-config')
-    ];
+Every config file should end in `-config.js`. e.g.:
+
+    deathmtn-config.js
+    smidgital-digital-blog-config.js
 
 Each config should have a 'name' property, the opts you'd pass to create a [static-web-archive](https://github.com/jimkang/static-web-archive'), under `archiveOpts`, and a secret under `secret`. The secret is something note-taker checks against when receiving posts. For example:
 
@@ -58,24 +56,21 @@ Each config should have a 'name' property, the opts you'd pass to create a [stat
       secret: '<Secret for posting to this>'
     }
 
+### Running the service
 
-Usage
------
+    ./node_modules/.bin/note-taker <Path to directory containing config files>
 
-    node start-note-taker.js
+You can use that command in your systemd service or other process supervisor.
 
-Deploy:
+That will start the service, and you can start making REST calls to it at port 5678. Here's an example call:
 
-    make initial-setup
+    curl -X POST -H 'Authorization: Key $(SECRET)' -H 'x-note-archive: deathmtn' -H 'content-type: application/json' -d '{"date": "2018-06-14", "caption": "Makefiles R gr8"}' http://localhost:5678/note
 
-Subsequent deploys:
+## Tests
 
-    make pushall
+    make test
 
-For an example of a browser client posting to note-taker, see [note-sender](https://github.com/jimkang/note-sender).
-
-License
--------
+## License
 
 The MIT License (MIT)
 

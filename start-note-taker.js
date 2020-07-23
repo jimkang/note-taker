@@ -1,12 +1,25 @@
 #!/usr/bin/env node
 
-/* global process */
+/* global process, __dirname */
 
+var fs = require('fs');
 var NoteTaker = require('./note-taker');
 var StaticWebArchive = require('@jimkang/static-web-archive');
 var logFormat = require('log-format');
 var randomId = require('idmaker').randomId;
-var configs = require('./configs/config-index');
+
+if (process.argv.length < 3) {
+  console.error(
+    'Usage: node start-note-taker.js <path to directory containing configs>'
+  );
+  process.exit(1);
+}
+
+const configsPath = process.argv[2];
+const fullConfigsPath = `${__dirname}/${configsPath}`;
+
+var files = fs.readdirSync(fullConfigsPath).filter(isAConfigFile);
+var configs = files.map(file => require(fullConfigsPath + '/' + file));
 
 const port = 5678;
 
@@ -52,4 +65,8 @@ function appendRandomId(archiveName) {
 
 function logError(error) {
   process.stderr.write(logFormat(error.message, error.stack));
+}
+
+function isAConfigFile(filename) {
+  return filename.endsWith('-config.js');
 }
