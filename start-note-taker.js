@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-/* global process, __dirname */
+/* global process */
 
 var fs = require('fs');
 var NoteTaker = require('./note-taker');
@@ -15,8 +15,7 @@ if (process.argv.length < 3) {
   process.exit(1);
 }
 
-const configsPath = process.argv[2];
-const fullConfigsPath = `${__dirname}/${configsPath}`;
+const fullConfigsPath = process.argv[2];
 
 var files = fs.readdirSync(fullConfigsPath).filter(isAConfigFile);
 var configs = files.map(file => require(fullConfigsPath + '/' + file));

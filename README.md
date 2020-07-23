@@ -58,7 +58,7 @@ Each config should have a 'name' property, the opts you'd pass to create a [stat
 
 ### Running the service
 
-    ./node_modules/.bin/note-taker <Path to directory containing config files>
+    ./node_modules/.bin/note-taker <Absolute path to directory containing config files>
 
 You can use that command in your systemd service or other process supervisor.
 
