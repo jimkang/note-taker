@@ -10,12 +10,16 @@ var randomId = require('idmaker').randomId;
 
 if (process.argv.length < 3) {
   console.error(
-    'Usage: node start-note-taker.js <path to directory containing configs>'
+    'Usage: node start-note-taker.js <path to directory containing configs> <--delay-after-writes>'
   );
   process.exit(1);
 }
 
 const fullConfigsPath = process.argv[2];
+var skipDelay = true;
+if (process.argv.length > 3 && process.argv[3] === '--delay-after-writes') {
+  skipDelay = false;
+}
 
 var files = fs.readdirSync(fullConfigsPath).filter(isAConfigFile);
 var configs = files.map(file => require(fullConfigsPath + '/' + file));
@@ -31,7 +35,9 @@ NoteTaker(
 );
 
 function createArchiveKit(config) {
-  var archiveStream = StaticWebArchive(config.archiveOpts);
+  var archiveStream = StaticWebArchive(
+    Object.assign({ skipDelay }, config.archiveOpts)
+  );
   archiveStream.on('error', logError);
   return {
     name: config.name,
