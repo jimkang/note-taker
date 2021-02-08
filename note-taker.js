@@ -99,7 +99,14 @@ function NoteTaker({ archiveKits, getId }, done) {
 
 function getCellFromReq(req, id) {
   // TODO: Should probably switch over to multipart form data to handle binaries.
-  var cell = pick(req.params, 'caption', 'mediaFilename', 'altText', 'isVideo');
+  var cell = pick(
+    req.params,
+    'caption',
+    'mediaFilename',
+    'altText',
+    'isVideo',
+    'isAudio'
+  );
   cell.id = id;
   cell.caption = req.params.caption;
   cell.date = new Date().toISOString();
