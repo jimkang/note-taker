@@ -15,7 +15,7 @@ Every config file should end in `-config.js`. e.g.:
     deathmtn-config.js
     smidgital-digital-blog-config.js
 
-Each config should have a 'name' property, the opts you'd pass to create a [static-web-archive](https://github.com/jimkang/static-web-archive'), under `archiveOpts`, and a secret under `secret`. The secret is something note-taker checks against when receiving posts. For example:
+Each config should have a 'name' property, the opts you'd pass to create a [static-web-archive](https://github.com/jimkang/static-web-archive), under `archiveOpts`, and a secret under `secret`. The secret is something note-taker checks against when receiving posts. For example:
 
     const rootPath = '/usr/share/nginx/html/blog-zone/deathmtn';
 
