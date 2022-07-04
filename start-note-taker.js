@@ -22,14 +22,14 @@ if (process.argv.length > 3 && process.argv[3] === '--delay-after-writes') {
 }
 
 var files = fs.readdirSync(fullConfigsPath).filter(isAConfigFile);
-var configs = files.map(file => require(fullConfigsPath + '/' + file));
+var configs = files.map((file) => require(fullConfigsPath + '/' + file));
 
 const port = 5678;
 
 NoteTaker(
   {
     archiveKits: configs.map(createArchiveKit),
-    getId: appendRandomId
+    getId: appendRandomId,
   },
   useServer
 );
@@ -42,7 +42,7 @@ function createArchiveKit(config) {
   return {
     name: config.name,
     archiveStream,
-    secret: config.secret
+    secret: config.secret,
   };
 }
 
