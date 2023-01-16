@@ -2,9 +2,15 @@
 var restify = require('@jimkang/restify');
 var callNextTick = require('call-next-tick');
 var pick = require('lodash.pick');
+var seedrandom = require('seedrandom');
+var RandomId = require('@jimkang/randomid');
 
 // TODO: secret should be per-archive
-function NoteTaker({ archiveKits, getId }, done) {
+function NoteTaker({ archiveKits, getId, seed }, done) {
+  if (!seed) {
+    seed = new Date().toISOString();
+  }
+  var randomId = RandomId({ random: seedrandom(seed) });
   var kitsByName = {};
   archiveKits.forEach(storeKit);
   function storeKit(kit) {
@@ -95,26 +101,29 @@ function NoteTaker({ archiveKits, getId }, done) {
     res.end();
     next();
   }
-}
 
-function getCellFromReq(req, id) {
+  function getCellFromReq(req, id) {
   // TODO: Should probably switch over to multipart form data to handle binaries.
-  var cell = pick(
-    req.params,
-    'caption',
-    'mediaFilename',
-    'altText',
-    'isVideo',
-    'isAudio'
-  );
-  cell.id = id;
-  cell.caption = req.params.caption;
-  cell.date = new Date().toISOString();
-  if (req.params.buffer && Buffer.isBuffer(req.params.buffer)) {
+    var cell = pick(
+      req.params,
+      'caption',
+      'altText',
+      'isVideo',
+      'isAudio'
+    );
+    cell.id = id;
+    cell.caption = req.params.caption;
+    cell.date = new Date().toISOString();
+    if (req.params.mediaFilename) {
+      // Avoid filename collisions.
+      cell.mediaFilename = `${randomId(8)}-${req.params.mediaFilename}`;
+    }
+    if (req.params.buffer && Buffer.isBuffer(req.params.buffer)) {
     // TODO: If static-web-archives someday supports multiple buffers, add them all.
-    cell.buffer = req.params.buffer;
+      cell.buffer = req.params.buffer;
+    }
+    return cell;
   }
-  return cell;
 }
 
 module.exports = NoteTaker;

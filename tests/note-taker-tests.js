@@ -109,7 +109,7 @@ var testCases = [
       caption: `OK, I am testing a thing.
 
       Here is more text with an image.`,
-      mediaFilename: 'smidgeo.jpg',
+      mediaFilename: 'tUyPSOYF-smidgeo.jpg',
       altText: 'It is Smidgeo!',
       buffer: smidgeoBuffer
       //isVideo: undefined
@@ -137,7 +137,8 @@ function runTest(testCase) {
             archiveStream: mockWebStream
           }
         ],
-        getId: testCase.getId
+        getId: testCase.getId,
+        seed: 'test'
       },
       startServer
     );
