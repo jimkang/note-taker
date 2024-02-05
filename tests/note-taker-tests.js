@@ -13,6 +13,10 @@ var smidgeoBuffer = fs.readFileSync(
   __dirname + '/fixtures/smidgeo_headshot.jpg',
   { encoding: null }
 );
+var wilyBuffer = fs.readFileSync(
+  __dirname + '/fixtures/dr-wily.png',
+  { encoding: null }
+);
 
 var testCases = [
   {
@@ -83,17 +87,20 @@ var testCases = [
     expectedWrite: null
   },
   {
-    name: 'Image',
+    name: 'Two images',
     formData: {
       caption: `OK, I am testing a thing.
 
-      Here is more text with an image.`,
-      buffer: fs.createReadStream(
+      Here is more text with two images.`,
+      buffer0: fs.createReadStream(
         __dirname + '/fixtures/smidgeo_headshot.jpg',
         { encoding: null }
       ),
-      mediaFilename: 'smidgeo.jpg',
-      altText: 'It is Smidgeo!'
+      buffer1: fs.createReadStream(
+        __dirname + '/fixtures/dr-wily.png',
+        { encoding: null }
+      ),
+      mediaFiles: JSON.stringify([{ filename: 'smidgeo.jpg', alt: 'It is Smidgeo!' }, { filename: 'randomid-wily.png', alt: 'And now it is Wily!' }]),
     },
     targetArchive: 'test-archive',
     archiveStreamName: 'test-archive',
@@ -108,10 +115,9 @@ var testCases = [
       id: 'test-archive-image',
       caption: `OK, I am testing a thing.
 
-      Here is more text with an image.`,
-      mediaFilename: 'tUyPSOYF-smidgeo.jpg',
-      altText: 'It is Smidgeo!',
-      buffer: smidgeoBuffer
+      Here is more text with two images.`,
+      mediaFiles: [{ filename: 'tUyPSOYF-smidgeo.jpg', alt: 'It is Smidgeo!' }, { filename: 'lWZwxApx-randomid-wily.png', alt: 'And now it is Wily!' }],
+      buffers: [smidgeoBuffer, wilyBuffer]
       //isVideo: undefined
     }
   }
@@ -182,13 +188,7 @@ function runTest(testCase) {
           testCase.expectedWrite,
           'Correct object is written to stream.'
         );
-        if (testCase.expectedWrite.buffer) {
-          t.equal(
-            Buffer.compare(writeObject.buffer, testCase.expectedWrite.buffer),
-            0,
-            'Media buffer is correct.'
-          );
-        }
+        // Explicitly comparing buffers is unnecessary. That's covered by deepEqual.
       } else {
         t.fail('Does not write to stream');
       }

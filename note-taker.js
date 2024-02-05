@@ -1,9 +1,11 @@
-/* global Buffer */
+/* global Buffer, process */
 var restify = require('@jimkang/restify');
 var callNextTick = require('call-next-tick');
 var pick = require('lodash.pick');
 var seedrandom = require('seedrandom');
 var RandomId = require('@jimkang/randomid');
+
+const buffersMax = 16;
 
 // TODO: secret should be per-archive
 function NoteTaker({ archiveKits, getId, seed }, done) {
@@ -114,15 +116,47 @@ function NoteTaker({ archiveKits, getId, seed }, done) {
     cell.id = id;
     cell.caption = req.params.caption;
     cell.date = new Date().toISOString();
-    if (req.params.mediaFilename) {
-      // Avoid filename collisions.
-      cell.mediaFilename = `${randomId(8)}-${req.params.mediaFilename}`;
+    if (req.params.mediaFiles && typeof req.params.mediaFiles === 'string') {
+      let mediaFiles;
+      try {
+        mediaFiles = JSON.parse(req.params.mediaFiles);
+      } catch (error) {
+        process.stderror.write(`Could not parse mediaFiles from cell ${id}.\n`);
+      }
+      if (mediaFiles) {
+        // Avoid filename collisions.
+        cell.mediaFiles = mediaFiles.map(mf => Object.assign({}, mf, { filename: prefixFilename(mf.filename) }));
+      }
     }
-    if (req.params.buffer && Buffer.isBuffer(req.params.buffer)) {
-    // TODO: If static-web-archives someday supports multiple buffers, add them all.
+    if (req.params.mediaFilename) {
+      if (!cell.mediaFiles) {
+        cell.mediaFiles = [];
+      }
+      cell.mediaFiles.push({ filename: prefixFilename(req.params.mediaFilename) });
+    }
+
+    if (req.params.buffer) {
       cell.buffer = req.params.buffer;
     }
+
+    if (cell.mediaFiles) {
+      for (let bufferNumber = 0; bufferNumber < buffersMax && cell.mediaFiles.length; ++bufferNumber) {
+        let buffer = req.params['buffer' + bufferNumber];
+        if (!buffer) {
+          break;
+        }
+        if (!cell.buffers) {
+          cell.buffers = [];
+        }
+        cell.buffers.push(Buffer.isBuffer(buffer) ? buffer : null);
+      }
+    }
+    
     return cell;
+  }
+
+  function prefixFilename(filename) {
+    return `${randomId(8)}-${filename}`;
   }
 }
 
