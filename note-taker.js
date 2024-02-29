@@ -81,7 +81,7 @@ function NoteTaker({ archiveKits, getId, seed }, done) {
       next();
       return;
     }
-    if (!req.params || (!req.params.caption && !req.params.buffer)) {
+    if (!req.params || (!req.params.caption && !(req.params.buffer || req.params.buffer0))) {
       res.json(400, { message: 'Missing params.' });
       next();
       return;
