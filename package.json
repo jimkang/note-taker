@@ -31,7 +31,7 @@
   "dependencies": {
     "@jimkang/randomid": "git+https://github.com/jimkang/randomid.git",
     "@jimkang/restify": "^4.3.6",
-    "@jimkang/static-web-archive": "^6.8.0",
+    "@jimkang/static-web-archive": "^6.8.1",
     "call-next-tick": "^1.1.2",
     "lodash.defaults": "^4.2.0",
     "lodash.pick": "^4.4.0",
